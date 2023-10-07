@@ -23,7 +23,9 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <main className="container flex flex-1">
-            <SideBar />
+            <div className="hidden md:flex md:w-1/5">
+              <SideBar />
+            </div>
             {children}
           </main>
         </Providers>

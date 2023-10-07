@@ -1,11 +1,18 @@
 'use client'
 import { ICartItem } from '@/types/cart'
-import { createContext, useContext, useEffect, useReducer } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react'
 
 type Action =
   | { type: 'setCart'; payload: ICartItem[] }
   | { type: 'addCart'; payload: ICartItem }
-  | { type: 'removeFromCart'; payload: { id: number } }
+  | { type: 'incrementFromCart'; payload: { id: number; increment: number } }
+  | { type: 'decrementFromCart'; payload: { id: number; decrement: number } }
   | { type: 'deleteCartItem'; payload: { id: number } }
   | { type: 'deleteCart' }
 type Dispatch = (action: Action) => void
@@ -15,7 +22,7 @@ type CartProviderProps = { children: React.ReactNode }
 const CartStateContext = createContext<State | undefined>(undefined)
 const CartDispatchContext = createContext<Dispatch | undefined>(undefined)
 
-function CartReducer(state: State, action: Action): State {
+const CartReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'setCart': {
       return action.payload
@@ -37,14 +44,27 @@ function CartReducer(state: State, action: Action): State {
       const newState: State = [...state, action.payload]
       return newState
     }
-    case 'removeFromCart': {
+    case 'incrementFromCart': {
+      //const isItemInState = state.find((item) => item.id === action.payload.id)
+
+      return state.map((item) =>
+        item.id === action.payload.id
+          ? { ...item, quantity: item.quantity + action.payload.increment }
+          : item
+      )
+    }
+
+    case 'decrementFromCart': {
       const isItemInState = state.find((item) => item.id === action.payload.id)
-      if (isItemInState?.quantity === 1) {
+      if (
+        isItemInState?.quantity &&
+        isItemInState?.quantity <= action.payload.decrement
+      ) {
         return state.filter((item) => item.id !== action.payload.id)
       } else {
         return state.map((item) =>
           item.id === action.payload.id
-            ? { ...item, quantity: item.quantity - 1 }
+            ? { ...item, quantity: item.quantity - action.payload.decrement }
             : item
         )
       }
@@ -83,7 +103,6 @@ function CartProvider({ children }: CartProviderProps) {
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(state))
   }, [state])
-
   return (
     <CartStateContext.Provider value={state}>
       <CartDispatchContext.Provider value={dispatch}>

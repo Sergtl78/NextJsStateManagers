@@ -61,13 +61,15 @@ const Cart = (props: Props) => {
           <div className="flex flex-col space-y-2">
             {cartItems && cartItems.length === 0 && (
               <div className=" flex flex-col w-full items-center justify-center">
-                <h3 className="h3">В корзине пока пусто</h3>
+                <h3 className="h3">The cart is still empty</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Загляните на главную, чтобы выбрать товары
+                  Visit the main page to select products
                 </p>
-                <Link href={'/'}>
-                  <Button>Перейти на главную</Button>
-                </Link>
+                <SheetClose asChild>
+                  <Link href={'/'}>
+                    <Button>Go to Main</Button>
+                  </Link>
+                </SheetClose>
               </div>
             )}
             {cartItems &&
@@ -76,8 +78,8 @@ const Cart = (props: Props) => {
                   key={ind}
                   className="flex flex-col  w-full items-center justify-between border border-border rounded-xl shadow-md space-x-5"
                 >
-                  <Link href={''} className="w-full">
-                    <div className="flex flex-row w-full items-center justify-start p-2 md:p-0 ">
+                  <div className="flex flex-row w-full items-center justify-between p-2 md:p-0 ">
+                    <Link href={`/product/${cartItem.id}`} className="">
                       <div className="overflow-hidden flex shrink-0  w-20 h-20">
                         <Image
                           className="h-auto w-auto object-cover transition-all hover:scale-105 rounded-lg aspect-[4/4]"
@@ -87,9 +89,25 @@ const Cart = (props: Props) => {
                           height={100}
                         />
                       </div>
-                      <h3 className="font-semibold ml-4">{cartItem.title} </h3>
-                    </div>
-                  </Link>
+                    </Link>
+                    <h3 className="font-semibold ml-4 truncate">
+                      {cartItem.title}{' '}
+                    </h3>
+
+                    <Button
+                      className="group"
+                      onClick={() =>
+                        dispatch({
+                          type: 'deleteCartItem',
+                          payload: { id: cartItem.id },
+                        })
+                      }
+                      variant={'ghost'}
+                      size={'icon'}
+                    >
+                      <TrashIcon className="w-6 h-6 stroke-1 group-hover:stroke-destructive" />
+                    </Button>
+                  </div>
 
                   <div className="flex w-full p-2  ">
                     <CounterCart cartItem={cartItem} />
@@ -104,11 +122,6 @@ const Cart = (props: Props) => {
             <span>{totalPrice.toLocaleString('ru-RU')} $</span>
           </div>
         </div>
-        <SheetFooter className="fle">
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   )

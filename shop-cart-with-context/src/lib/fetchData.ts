@@ -1,27 +1,39 @@
 import { IProduct, IProducts } from '@/types/product'
+import { cache } from 'react'
 
 const domain = 'dummyjson.com'
 
-export async function getProducts(slug?: string): Promise<IProducts> {
-  const res = await fetch(
-    slug
-      ? `https://${domain}/products/category/${slug}`
-      : `https://${domain}/products`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+export const getProducts = cache(
+  async ({
+    slug,
+    limit,
+    skip,
+  }: {
+    slug?: string
+    limit?: number
+    skip?: number
+  }): Promise<IProducts> => {
+    const res = await fetch(
+      slug
+        ? `https://${domain}/products/category/${slug}`
+        : `https://${domain}/products?limit=${limit}&skip=${skip}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
     }
-  )
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    return res.json()
   }
+)
 
-  return res.json()
-}
-export async function getCategories(): Promise<string[]> {
+export const getCategories = cache(async (): Promise<string[]> => {
   const res = await fetch(`https://${domain}/products/categories`)
 
   if (!res.ok) {
@@ -29,9 +41,9 @@ export async function getCategories(): Promise<string[]> {
   }
 
   return res.json()
-}
+})
 
-export async function getProductById(id: string): Promise<IProduct> {
+export const getProductById = cache(async (id: string): Promise<IProduct> => {
   const res = await fetch(`https://${domain}/products/${id}`)
 
   if (!res.ok) {
@@ -39,4 +51,4 @@ export async function getProductById(id: string): Promise<IProduct> {
   }
 
   return res.json()
-}
+})

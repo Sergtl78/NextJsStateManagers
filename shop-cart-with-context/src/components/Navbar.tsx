@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { appData } from '@/lib/dataApp'
 import ThemeToggle from './ThemeToggle'
 import Cart from './Cart'
+import MobileNav from './MobileNav'
+import SideBar from './SideBar'
 
 type Props = {}
 
@@ -11,12 +13,19 @@ const Navbar = (props: Props) => {
   return (
     <nav className="sticky top-0 left-0 z-50 flex w-full h-14 md:h-20 shadow px-4 py-2 bg-background border-b border-border">
       <div className="container flex w-full items-center justify-between ">
-        <Link href={'/'}>
-          <Button variant={'ghost'} size={'sm'}>
-            <h1 className="text-2xl font-bold">{appData.title}</h1>
-          </Button>
-        </Link>
-
+        <div className="flex">
+          <div className="md:hidden">
+            <MobileNav>
+              <SideBar />
+            </MobileNav>
+          </div>
+          <Link href={'/'}>
+            <Button variant={'ghost'} size={'sm'}>
+              <h1 className="text-2xl font-bold">{appData.title}</h1>
+            </Button>
+          </Link>
+        </div>
+        <p className="hidden md:block">{appData.description}</p>
         <div className="flex items-center gap-4">
           <Cart />
           <Suspense

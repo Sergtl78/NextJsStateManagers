@@ -8,7 +8,7 @@ type Props = {}
 const SideBar = async (props: Props) => {
   const categories = await getCategories()
   return (
-    <aside className="hidden md:flex flex-col w-1/5 h-full py-4">
+    <aside className="flex flex-col w-full  h-full py-4">
       <h2 className="h3 mb-2">Categories</h2>
       <ScrollArea>
         <Link href={`/`}>

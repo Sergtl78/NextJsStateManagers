@@ -4,7 +4,6 @@ import { Button } from './ui/button'
 import BadgeIcon from './ui/badge-icon'
 import CartIcon from './CartIcon'
 import { useCartState } from '@/store/context/createCartContext'
-import { Skeleton } from './ui/skeleton'
 
 const CartNavIcon = () => {
   const state = useCartState()
@@ -25,7 +24,7 @@ const CartNavIcon = () => {
           <BadgeIcon count={cartItemTotal} />
         </div>
       ) : (
-        <div className="h-full w-full bg-red-500" />
+        <div className="h-full w-full animate-pulse" />
       )}
     </>
   )
