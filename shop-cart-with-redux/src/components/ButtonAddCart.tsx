@@ -4,7 +4,8 @@ import React from 'react'
 import { Button } from './ui/button'
 import CartIcon from './CartIcon'
 import { IProduct } from '@/types/product'
-import { useCartDispatch } from '@/store/context/createCartContext'
+import { useActionCreators } from '@/redux/store'
+import { cartActions } from '@/redux/features/cart-slice'
 
 type Props = {
   product: IProduct
@@ -12,17 +13,11 @@ type Props = {
 
 export default function ButtonAddCart({ product }: Props) {
   const { brand, description, stock, category, ...item } = product
-  const dispatch = useCartDispatch()
+  // const dispatch = useAppDispatch()
+  const actions = useActionCreators(cartActions)
   return (
     <div>
-      <Button
-        onClick={() =>
-          dispatch({
-            type: 'addCart',
-            payload: { ...item, quantity: 1 },
-          })
-        }
-      >
+      <Button onClick={() => actions.addCart({ ...item, quantity: 1 })}>
         <CartIcon className="w-6 h-6 fill-primary-foreground" />
       </Button>
     </div>

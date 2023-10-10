@@ -3,16 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import BadgeIcon from './ui/badge-icon'
 import CartIcon from './CartIcon'
-import { useAppSelector, selectCart } from '@/redux/store'
+import { useCartItems } from '@/store/context/store'
 
 const CartNavIcon = () => {
-  const state = useAppSelector(selectCart)
+  const state = useCartItems()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
-  const cartItemTotal = state.reduce((acc, item) => (acc += item.quantity), 0)
+  const cartItemTotal =
+    state.length > 0
+      ? state.reduce((acc, item) => (acc += item.quantity), 0)
+      : 0
 
   return (
     <>

@@ -1,22 +1,18 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from './ui/button'
-import { IProduct } from '@/types/product'
+import { Product } from '@/types/product'
 import CartIcon from './CartIcon'
-import { useActionCreators } from '@/redux/store'
-import { cartActions } from '@/redux/features/cart-slice'
+import { useCartActions } from '@/store/context/store'
 
 type Props = {
-  product: IProduct
+  product: Product
 }
 
 const Counter = ({ product }: Props) => {
   const { brand, description, stock, category, ...item } = product
-
   const [count, setCount] = useState(1)
-
-  const actions = useActionCreators(cartActions)
-
+  const actions = useCartActions()
   return (
     <div className="flex flex-row w-full justify-between items-center mb-4">
       <div className="flex items-center justify-center">

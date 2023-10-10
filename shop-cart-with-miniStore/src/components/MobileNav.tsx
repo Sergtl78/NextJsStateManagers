@@ -13,7 +13,6 @@ import {
 import { Button } from './ui/button'
 
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import ScrollArea from './ScrollArea'
 import { appData } from '@/lib/dataApp'
 
 type Props = {
@@ -35,11 +34,11 @@ const MobileNav = ({ children }: Props) => {
           <SheetTitle>{appData.title}</SheetTitle>
         </SheetHeader>
 
-        <ScrollArea className="h-[70vh]">
-          <div className="flex flex-col space-y-2">{children}</div>
-        </ScrollArea>
+        {/*  <ScrollArea className="h-[70vh]"> */}
+        <div className="flex flex-col space-y-2">{children}</div>
+        {/* </ScrollArea> */}
         <SheetFooter>
-          <div className="flex h-32 w-full items-center justify-center">
+          <div className="flex w-full items-center justify-center">
             <SheetClose>
               <Button>Close</Button>
             </SheetClose>

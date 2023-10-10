@@ -1,12 +1,12 @@
 import { IProduct } from './product'
 
-export interface ICartItem
+export interface CartItem
   extends Omit<IProduct, 'description' | 'brand' | 'stock' | 'category'> {
   quantity: number
 }
 
 export interface ICart {
-  cartItems: ICartItem[]
+  cartItems: CartItem[]
   totalPrice: number
   discountedTotal: number
   totalProducts: number

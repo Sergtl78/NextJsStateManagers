@@ -1,8 +1,7 @@
 'use client'
-import { CartItem } from '@/types/cart'
+import { CartItem } from '@/store/context/createOptimalContext'
 import { Button } from './ui/button'
-import { useActionCreators } from '@/redux/store'
-import { cartActions } from '@/redux/features/cart-slice'
+import { useCartActions } from '@/store/context/store'
 
 type Props = {
   cartItem: CartItem
@@ -18,13 +17,13 @@ const CounterCart = ({
   increment = 1,
   decrement = 1,
 }: Props) => {
-  const actions = useActionCreators(cartActions)
+  const action = useCartActions()
 
   const handleIncrement = () => {
-    actions.incrementFromCart({ id: cartItem.id, increment })
+    action.addFromCart(cartItem.id, increment)
   }
   const handleDecrement = () => {
-    actions.decrementFromCart({ id: cartItem.id, decrement })
+    action.removeFromCart(cartItem.id, decrement)
   }
 
   return (
@@ -33,7 +32,10 @@ const CounterCart = ({
         <div className="flex items-center justify-start">
           <Button
             className="bg-muted"
-            onClick={() => handleDecrement()}
+            onClick={
+              handleDecrement
+              //dispatch({ type: 'removeFromCart', payload: { id: cartItem.id } })
+            }
             variant={'ghost'}
             size={'sm'}
           >

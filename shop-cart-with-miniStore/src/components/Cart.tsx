@@ -18,20 +18,18 @@ import Image from 'next/image'
 import CounterCart from './CounterCart'
 import { TrashIcon } from '@radix-ui/react-icons'
 import ScrollArea from './ScrollArea'
-import { useAppSelector, selectCart, useActionCreators } from '@/redux/store'
-import { cartActions } from '@/redux/features/cart-slice'
+import {
+  useCartActions,
+  useCartItems,
+  useCartTotalPrice,
+} from '@/store/context/store'
 
 type Props = {}
 
 const Cart = (props: Props) => {
-  const cartItems = useAppSelector(selectCart)
-
-  const actions = useActionCreators(cartActions)
-
-  const totalPrice = cartItems.reduce(
-    (acc, item) => (acc += item.price * item.quantity),
-    0
-  )
+  const cartItems = useCartItems()
+  const actions = useCartActions()
+  const totalPrice = useCartTotalPrice()
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -45,7 +43,7 @@ const Cart = (props: Props) => {
             <SheetTitle>Cart</SheetTitle>
             <Button
               className="group"
-              onClick={() => actions.deleteCart()}
+              onClick={() => actions.clearCart()}
               variant={'ghost'}
               size={'icon'}
             >
@@ -69,7 +67,7 @@ const Cart = (props: Props) => {
                 </SheetClose>
               </div>
             )}
-            {cartItems &&
+            {cartItems.length > 0 &&
               cartItems.map((cartItem, ind) => (
                 <div
                   key={ind}
@@ -93,9 +91,7 @@ const Cart = (props: Props) => {
 
                     <Button
                       className="group"
-                      onClick={() =>
-                        actions.deleteCartItem({ id: cartItem.id })
-                      }
+                      onClick={() => actions.removeItemCart(cartItem.id)}
                       variant={'ghost'}
                       size={'icon'}
                     >
