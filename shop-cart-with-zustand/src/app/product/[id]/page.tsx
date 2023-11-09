@@ -1,6 +1,6 @@
 import CardSlider from '@/components/CardSlider'
 import Counter from '@/components/Counter'
-import { getProductById } from '@/lib/fetchData'
+import { getProductById, getProducts } from '@/lib/fetchData'
 import React from 'react'
 
 type Props = {
@@ -9,13 +9,13 @@ type Props = {
   }
 }
 
-/* export async function generateStaticParams() {
-  const posts = await fetch('https://.../posts').then((res) => res.json())
- 
-  return posts.map((post) => ({
-    slug: post.slug,
+export async function generateStaticParams() {
+  const { products } = await getProducts({ limit: 100, skip: 0 })
+
+  return products.map((product) => ({
+    id: product.id + '',
   }))
-} */
+}
 
 export default async function ProductPage({ params }: Props) {
   const product = await getProductById(params.id)

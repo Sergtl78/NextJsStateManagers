@@ -17,12 +17,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "embla-carousel-react": "^8.0.0-rc14",
+    "immer": "^10.0.3",
     "next": "latest",
     "next-themes": "^0.2.1",
     "react": "latest",
     "react-dom": "latest",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "latest",

@@ -5,7 +5,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -14,23 +13,20 @@ import { Button } from './ui/button'
 import CartNavIcon from './CartNavIcon'
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  useCartDispatch,
-  useCartState,
-} from '@/store/context/createCartContext'
+
 import CounterCart from './CounterCart'
 import { TrashIcon } from '@radix-ui/react-icons'
 import ScrollArea from './ScrollArea'
 
+import { useCartStore } from '@/store/cartState'
+
 type Props = {}
 
 const Cart = (props: Props) => {
-  const cartItems = useCartState()
-  const dispatch = useCartDispatch()
-  const totalPrice = cartItems.reduce(
-    (acc, item) => (acc += item.price * item.quantity),
-    0
-  )
+  const cartItems = useCartStore((state) => state.cartItems)
+  const clearCart = useCartStore((state) => state.clearCart)
+  const removeItemCart = useCartStore((state) => state.removeItemCart)
+  const totalPrice = useCartStore((state) => state.getCartTotal)
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -44,11 +40,7 @@ const Cart = (props: Props) => {
             <SheetTitle>Cart</SheetTitle>
             <Button
               className="group"
-              onClick={() =>
-                dispatch({
-                  type: 'deleteCart',
-                })
-              }
+              onClick={() => clearCart()}
               variant={'ghost'}
               size={'icon'}
             >
@@ -72,7 +64,7 @@ const Cart = (props: Props) => {
                 </SheetClose>
               </div>
             )}
-            {cartItems &&
+            {cartItems.length > 0 &&
               cartItems.map((cartItem, ind) => (
                 <div
                   key={ind}
@@ -96,12 +88,7 @@ const Cart = (props: Props) => {
 
                     <Button
                       className="group"
-                      onClick={() =>
-                        dispatch({
-                          type: 'deleteCartItem',
-                          payload: { id: cartItem.id },
-                        })
-                      }
+                      onClick={() => removeItemCart(cartItem.id)}
                       variant={'ghost'}
                       size={'icon'}
                     >
@@ -119,7 +106,7 @@ const Cart = (props: Props) => {
         <div className="flex flex-col w-full py-4">
           <div className="flex flex-row w-full text-lg font-semibold items-center justify-between">
             <p>Total:</p>
-            <span>{totalPrice.toLocaleString('ru-RU')} $</span>
+            <span>{totalPrice().toLocaleString('ru-RU')} $</span>
           </div>
         </div>
       </SheetContent>

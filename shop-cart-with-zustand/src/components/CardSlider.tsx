@@ -51,7 +51,7 @@ const CardSlider: React.FC<PropType> = (props) => {
           {slides.map((slide, index) => (
             <div
               className="embla__slide cursor-grab min-w-0 flex-grow-0 flex-shrink-0 relative w-full"
-              key={slide}
+              key={index}
             >
               <Image
                 className="embla__slide__img object-cover w-full max-h-[500px] block aspect-[4/4]"

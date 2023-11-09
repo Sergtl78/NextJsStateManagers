@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface Product {
   id: number
   title: string
   description: string
@@ -12,8 +12,8 @@ export interface IProduct {
   images: string[]
 }
 
-export interface IProducts {
-  products: IProduct[]
+export interface Products {
+  products: Product[]
   total: number
   skip: number
   limit: number

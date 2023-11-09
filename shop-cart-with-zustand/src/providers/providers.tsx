@@ -2,7 +2,6 @@
 
 import { ReactNode } from 'react'
 import { ThemeProvider } from './theme-provider'
-import ContextProvider from './contextProvider'
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
@@ -12,7 +11,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <ContextProvider>{children}</ContextProvider>
+      {children}
     </ThemeProvider>
   )
 }

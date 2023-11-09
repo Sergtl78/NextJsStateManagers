@@ -11,18 +11,9 @@ import {
   SheetTrigger,
 } from './ui/sheet'
 import { Button } from './ui/button'
-import CartNavIcon from './CartNavIcon'
-import Link from 'next/link'
-import Image from 'next/image'
-import {
-  useCartDispatch,
-  useCartState,
-} from '@/store/context/createCartContext'
-import CounterCart from './CounterCart'
-import { TrashIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
-import ScrollArea from './ScrollArea'
+
+import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { appData } from '@/lib/dataApp'
-import SideBar from './SideBar'
 
 type Props = {
   children: ReactNode
@@ -43,11 +34,11 @@ const MobileNav = ({ children }: Props) => {
           <SheetTitle>{appData.title}</SheetTitle>
         </SheetHeader>
 
-        <ScrollArea className="h-[70vh]">
-          <div className="flex flex-col space-y-2">{children}</div>
-        </ScrollArea>
+        {/*  <ScrollArea className="h-[70vh]"> */}
+        <div className="flex flex-col space-y-2">{children}</div>
+        {/* </ScrollArea> */}
         <SheetFooter>
-          <div className="flex h-32 w-full items-center justify-center">
+          <div className="flex w-full items-center justify-center">
             <SheetClose>
               <Button>Close</Button>
             </SheetClose>

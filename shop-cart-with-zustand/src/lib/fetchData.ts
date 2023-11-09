@@ -1,4 +1,4 @@
-import { IProduct, IProducts } from '@/types/product'
+import { Product, Products } from '@/types/product'
 import { cache } from 'react'
 
 const domain = 'dummyjson.com'
@@ -12,7 +12,7 @@ export const getProducts = cache(
     slug?: string
     limit?: number
     skip?: number
-  }): Promise<IProducts> => {
+  }): Promise<Products> => {
     const res = await fetch(
       slug
         ? `https://${domain}/products/category/${slug}`
@@ -43,7 +43,7 @@ export const getCategories = cache(async (): Promise<string[]> => {
   return res.json()
 })
 
-export const getProductById = cache(async (id: string): Promise<IProduct> => {
+export const getProductById = cache(async (id: string): Promise<Product> => {
   const res = await fetch(`https://${domain}/products/${id}`)
 
   if (!res.ok) {

@@ -1,6 +1,15 @@
 import CardListProducts from '@/components/CardListProducts'
 import SkeletonCardList from '@/components/skeletons/SkeletonCardList'
+import { getCategories } from '@/lib/fetchData'
 import React, { Suspense } from 'react'
+
+export async function generateStaticParams() {
+  const categories = await getCategories()
+
+  return categories.map((category) => ({
+    slug: category,
+  }))
+}
 
 const CategoryPage = ({
   params,

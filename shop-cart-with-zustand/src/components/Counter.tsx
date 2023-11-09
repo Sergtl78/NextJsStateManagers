@@ -1,19 +1,18 @@
 'use client'
 import React, { useContext, useState } from 'react'
 import { Button } from './ui/button'
-import { IProduct } from '@/types/product'
+import { Product } from '@/types/product'
 import CartIcon from './CartIcon'
-import { useCartDispatch } from '@/store/context/createCartContext'
-import { ICartItem } from '../types/cart'
+import { useCartStore } from '@/store/cartState'
 
 type Props = {
-  product: IProduct
+  product: Product
 }
 
 const Counter = ({ product }: Props) => {
   const { brand, description, stock, category, ...item } = product
   const [count, setCount] = useState(1)
-  const dispatch = useCartDispatch()
+  const addCart = useCartStore((store) => store.addCart)
   return (
     <div className="flex flex-row w-full justify-between items-center mb-4">
       <div className="flex items-center justify-center">
@@ -38,14 +37,7 @@ const Counter = ({ product }: Props) => {
       <p className="text-2xl font-semibold">
         {(product.price * count).toLocaleString('ru-RU') + ' $'}
       </p>
-      <Button
-        onClick={() =>
-          dispatch({
-            type: 'addCart',
-            payload: { ...item, quantity: count },
-          })
-        }
-      >
+      <Button onClick={() => addCart({ ...item, quantity: count })}>
         <CartIcon className="w-6 h-6 fill-primary-foreground" />
       </Button>
     </div>

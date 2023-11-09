@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import BadgeIcon from './ui/badge-icon'
 import CartIcon from './CartIcon'
-import { useCartState } from '@/store/context/createCartContext'
+import { useCartStore } from '@/store/cartState'
 
 const CartNavIcon = () => {
-  const state = useCartState()
+  const cartItems = useCartStore((state) => state.cartItems)
+  const cartItemTotal = useCartStore((state) => state.getCartItemsTotal)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
-  const cartItemTotal = state.reduce((acc, item) => (acc += item.quantity), 0)
 
   return (
     <>
@@ -21,7 +21,7 @@ const CartNavIcon = () => {
           <Button variant={'ghost'} size={'icon'}>
             <CartIcon className="w-6 h-6 fill-foreground" />
           </Button>
-          <BadgeIcon count={cartItemTotal} />
+          <BadgeIcon count={cartItemTotal()} />
         </div>
       ) : (
         <div className="h-full w-full animate-pulse" />

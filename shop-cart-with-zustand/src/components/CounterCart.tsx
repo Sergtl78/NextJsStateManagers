@@ -1,11 +1,9 @@
 'use client'
-import { ICartItem } from '@/types/cart'
 import { Button } from './ui/button'
-import { TrashIcon } from '@radix-ui/react-icons'
-import { useCartDispatch } from '@/store/context/createCartContext'
+import { CartItem, useCartStore } from '@/store/cartState'
 
 type Props = {
-  cartItem: ICartItem
+  cartItem: CartItem
   min?: number
   max?: number
   increment?: number
@@ -18,19 +16,14 @@ const CounterCart = ({
   increment = 1,
   decrement = 1,
 }: Props) => {
-  const dispatch = useCartDispatch()
+  const addFromCart = useCartStore((state) => state.addFromCart)
+  const removeFromCart = useCartStore((state) => state.removeFromCart)
 
   const handleIncrement = () => {
-    dispatch({
-      type: 'incrementFromCart',
-      payload: { id: cartItem.id, increment },
-    })
+    addFromCart(cartItem.id, increment)
   }
   const handleDecrement = () => {
-    dispatch({
-      type: 'decrementFromCart',
-      payload: { id: cartItem.id, decrement },
-    })
+    removeFromCart(cartItem.id, decrement)
   }
 
   return (

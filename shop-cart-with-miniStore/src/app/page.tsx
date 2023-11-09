@@ -1,6 +1,4 @@
 import CardListProducts from '@/components/CardListProducts'
-import { appData } from '@/lib/dataApp'
-import { useSearchParams } from 'next/navigation'
 
 export default async function Home({
   params,
